@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Pré-conexão com as fontes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Importação da fonte "Prompt" -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Folhas de estilo -->
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="stylesheet" href="./styles/PaginaDeLogin.css" />
+    <link rel="stylesheet" href="./styles/CampoDeDigitacao.css" />
+    <title>Login | CodeConnect</title>
+</head>
+
+<body>
+    <!-- Elemento raiz para renderização do React -->
+    <div id="root"></div>
+
+    <!-- Scripts de bibliotecas React -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"
+        integrity="sha512-8Q6Y9XnTbOE+JNvjBQwJ2H8S+UV4uA6hiRykhdtIyDYZ2TprdNmWOUaKdGzOhyr4dCyk287OejbPvwl7lrfqrQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"
+        integrity="sha512-MOCpqoRoisCTwJ8vQQiciZv0qcpROCidek3GTFS6KTk2+y7munJIlKCVkFCYY+p3ErYFXCjmFjnfTTRSC1OHWQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Script do Babel para transpilar JSX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.3/babel.min.js"
+        integrity="sha512-MIXku7j6pJ0hqd2T4WXZMGerp3BU9B91rfLRDp/McDBNNdnwTD+yLJaz9AHcYXT6k16dYTkG9S2KRPGxaBIfBQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Script React com JSX -->
+    <script type="text/babel">
+        // Componente para o título do formulário
+        function Titulo({ children }) {
+            return <h1 className='form__titulo'>{children}</h1>;
+        }
+
+        // Componente para o subtítulo do formulário
+        function Subtitulo({ children }) {
+            return <h2 className='form__texto'>{children}</h2>;
+        }
+
+        // Componente para campo de digitação
+        function CampoDeDigitacao({ type, id, placeholder, value, setValor }) {
+            return (
+                <div className='form__campo-digitacao'>
+                    <label htmlFor={id}>{placeholder}</label>
+                    <input 
+                        type={type}
+                        placeholder={placeholder}
+                        required
+                        id={id} 
+                        value={value}
+                        onChange={(evento) => setValor(evento.target.value)}
+                    />
+                </div>
+            );
+        }
+
+        // Componente para botão de submissão
+        function Botao({ children }) {
+            return <button type='submit' className='form__botao'>{children}</button>;
+        }
+
+        // Componente para checkbox
+        function Checkbox(){
+            return(
+                <>
+                <div className='form__campo-checkbox'>
+                    <input type='checkbox' id='lembrar'/>
+                    <label htmlFor="lembrar"></label>
+                </div>
+                <p className='form__opcoes-texto'>Lembrar-me</p>
+                </>
+            )
+        }
+
+        // Componente para textos genéricos
+        function Texto({ classe, children }) {
+            return <p className={classe}>{children}</p>;
+        }
+
+        // Componente para links de redes sociais
+        function ItemredesSociais({ link, nome }) {
+            return (
+                <li>
+                    <a href={link}>
+                        <img src={`./img/${nome}.svg`} alt={`Ícone do ${nome}`} />
+                        {nome}
+                    </a>        
+                </li>
+            );
+        }
+
+        // Componente para links gerais
+        function Link({ children }) {
+            return (
+                <a href='#' className='container-links__link'>
+                    {children}
+                </a>
+            );
+        }
+
+        // Componente principal da página de login
+        function PaginaDeLogin() {
+            const [email, setEmail] = React.useState('');
+            const [senha, setSenha] = React.useState('');
+
+            // Função para lidar com submissão do formulário
+            const handleSubmit = (event) => {
+                event.preventDefault();
+                console.log('email: ' + email);
+                console.log('senha: ' + senha);
+            }
+
+            return (
+                <div className='container-login'>
+                    <img src="./img/imagem-login.png" alt="Mulher negra de cabelos crespos" />
+                    <section>
+                        <form onSubmit={handleSubmit}>
+                            <Titulo>Login</Titulo>
+                            <Subtitulo>Boas-vindas! Faça o seu login</Subtitulo>
+                            <CampoDeDigitacao 
+                                type='email' 
+                                id='email' 
+                                placeholder='Digite o seu E-mail ou usuário' 
+                                value={email}
+                                setValor={setEmail} 
+                            />
+                            <CampoDeDigitacao 
+                                type='password' 
+                                id='senha' 
+                                placeholder='Digite a sua senha' 
+                                value={senha}
+                                setValor={setSenha}
+                            />
+                            <fieldset className='form__opcoes'>          
+                                <Checkbox />
+                                <p>
+                                    <a href='#' aria-label='Recuperar senha esquecida'>Esqueci a senha</a>
+                                </p>
+                            </fieldset>  
+                            <Botao>Login</Botao>
+                        </form>
+
+                        <div className='container-links'>
+                            <Texto classe='container-links__titulo'>ou entre com outras contas</Texto>     
+                            <ul>
+                                <ItemredesSociais link='https://www.github.com' nome='GitHub'/> 
+                                <ItemredesSociais link='https://www.google.com' nome='Google'/>  
+                            </ul> 
+                            <Texto classe='container-links__texto'>Ainda não tem conta?</Texto>
+                            <Link>Crie seu cadastro!</Link> 
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        // Renderiza o componente principal no elemento root
+        ReactDOM.createRoot(document.getElementById('root')).render(<PaginaDeLogin />);
+    </script>
+</body>
+
+</html>
